@@ -6,7 +6,7 @@ all: conf mconf nconf
 	@true   # Just be silent, you fscking son of a fscking beach...
 
 # Build flags
-CFLAGS = -DCONFIG_=\"CT_\" -DPACKAGE="\"crosstool-NG $(VERSION)\""
+CFLAGS = -DCONFIG_=\"CFG_\" -DPACKAGE="\"Project\""
 LDFLAGS = $(INTL_LIBS)
 
 # Compiler flags to use gettext
@@ -15,8 +15,8 @@ INTL_CFLAGS = -Wno-format-security -DKBUILD_NO_NLS
 endif
 
 # Compiler and linker flags to use ncurses
-NCURSES_CFLAGS = -DCURSES_LOC="\"$(curses_hdr)\""
-NCURSES_LDFLAGS = $(LIBS)
+NCURSES_CFLAGS = -DCURSES_LOC="\"ncurses.h\""
+NCURSES_LDFLAGS = -lncurses
 
 # Common source files
 COMMON_SRC = zconf.tab.c
@@ -48,7 +48,7 @@ nconf_SRC = nconf.c nconf.gui.c
 nconf_OBJ = $(patsubst %.c,%.o,$(nconf_SRC))
 nconf_DEP = $(patsubst %.c,%.dep,$(nconf_SRC))
 $(nconf_OBJ) $(nconf_DEP): CFLAGS += $(INTL_CFLAGS) -I/usr/include/ncurses
-nconf: LDFLAGS += -lmenu -lpanel $(LIBS)
+nconf: LDFLAGS += -lmenu -lpanel $(NCURSES_LDFLAGS)
 
 # These are generated files:
 ALL_OBJS = $(sort $(COMMON_OBJ) $(LX_OBJ) $(conf_OBJ) $(mconf_OBJ) $(nconf_OBJ))
@@ -64,7 +64,7 @@ DEPS += $(nconf_DEP)
 # Build the dependency for C files
 %.dep: %.c
 	@echo "  DEP    '$@'"
-	@$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MM $< |$(sed) -r -e 's|([^:]+.o)( *:+)|$(<:.c=.o) $@\2|;' >$@
+	@$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MM $< |sed -r -e 's|([^:]+.o)( *:+)|$(<:.c=.o) $@\2|;' >$@
 
 # Generate the grammar parser
 zconf.tab.o: zconf.tab.c zconf.hash.c zconf.lex.c
@@ -77,7 +77,7 @@ zconf.tab.c: zconf.y
 
 zconf.hash.c: zconf.gperf
 	@echo "  GPERF  '$@'"
-	@$(gperf) -C < $< > $@
+	@gperf -C < $< > $@
 
 zconf.lex.c: zconf.l
 	@echo "  LEX    '$@'"

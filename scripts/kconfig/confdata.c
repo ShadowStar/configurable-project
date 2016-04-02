@@ -1002,7 +1002,7 @@ int conf_write_autoconf(void)
 
 	name = getenv("KCONFIG_AUTOHEADER");
 	if (!name)
-		name = "include/generated/autoconf.h";
+		name = "include/autoconf.h";
 	if (rename(".tmpconfig.h", name))
 		return 1;
 	name = getenv("KCONFIG_TRISTATE");

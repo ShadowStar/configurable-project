@@ -4,54 +4,51 @@
 
 #-----------------------------------------------------------
 # The configurators rules
-
 configurators = menuconfig nconfig oldconfig savedefconfig defconfig
 PHONY += $(configurators)
 
 $(configurators): config_files
 
-export CT_IS_A_BACKEND:=$(CT_IS_A_BACKEND)
-export CT_BACKEND_ARCH:=$(CT_BACKEND_ARCH)
-export CT_BACKEND_KERNEL:=$(CT_BACKEND_KERNEL)
-export CT_BACKEND_LIBC:=$(CT_BACKEND_LIBC)
+config_files:
+	@$(MAKE) -C $(KCONFIG_DIR) PATH=$(PATH)
 
 # We need CONF for savedefconfig in scripts/saveSample.sh
-export CONF  := $(CT_LIB_DIR)/kconfig/conf
-MCONF := $(CT_LIB_DIR)/kconfig/mconf
-NCONF := $(CT_LIB_DIR)/kconfig/nconf
+export CONF  := $(KCONFIG_DIR)/conf
+MCONF := $(KCONFIG_DIR)/mconf
+NCONF := $(KCONFIG_DIR)/nconf
 
 menuconfig:
-	@$(CT_ECHO) "  CONF  $(KCONFIG_TOP)"
+	@$(ECHO) "  CONF  $(KCONFIG_TOP)"
 	$(SILENT)$(MCONF) $(KCONFIG_TOP)
 
 nconfig:
-	@$(CT_ECHO) "  CONF  $(KCONFIG_TOP)"
+	@$(ECHO) "  CONF  $(KCONFIG_TOP)"
 	$(SILENT)$(NCONF) $(KCONFIG_TOP)
 
 oldconfig: .config
-	@$(CT_ECHO) "  CONF  $(KCONFIG_TOP)"
+	@$(ECHO) "  CONF  $(KCONFIG_TOP)"
 	$(SILENT)$(CONF) --silent$@ $(KCONFIG_TOP)
 
 savedefconfig: .config
-	@$(CT_ECHO) '  GEN   $@'
+	@$(ECHO) '  GEN   $@'
 	$(SILENT)$(CONF) --savedefconfig=$${DEFCONFIG-defconfig} $(KCONFIG_TOP)
 
 defconfig:
-	@$(CT_ECHO) '  CONF  $@'
+	@$(ECHO) '  CONF  $@'
 	$(SILENT)$(CONF) --defconfig=$${DEFCONFIG-defconfig} $(KCONFIG_TOP)
 
 # Always be silent, the stdout an be >.config
 extractconfig:
 	@$(awk) 'BEGIN { dump=0; }                                                  \
-	         dump==1 && $$0~/^\[.....\][[:space:]]+(# )?CT_/ {                  \
+	         dump==1 && $$0~/^\[.....\][[:space:]]+(# )?CFG_/ {                 \
 	             $$1="";                                                        \
 	             gsub("^[[:space:]]","");                                       \
 	             print;                                                         \
 	         }                                                                  \
-	         $$0~/Dumping user-supplied crosstool-NG configuration: done in/ {  \
+	         $$0~/Dumping user-supplied Project configuration: done in/ {  \
 	             dump=0;                                                        \
 	         }                                                                  \
-	         $$0~/Dumping user-supplied crosstool-NG configuration$$/ {         \
+	         $$0~/Dumping user-supplied Project configuration$$/ {         \
 	             dump=1;                                                        \
 	         }'
 

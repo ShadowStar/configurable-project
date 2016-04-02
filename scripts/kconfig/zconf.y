@@ -502,7 +502,7 @@ void conf_parse(const char *name)
 
 	sym_init();
 	_menu_init();
-	rootmenu.prompt = menu_add_prompt(P_MENU, "Crosstool-NG Configuration", NULL);
+	rootmenu.prompt = menu_add_prompt(P_MENU, "Project Configuration", NULL);
 
 #if YYDEBUG
 	if (getenv("ZCONF_DEBUG"))

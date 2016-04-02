@@ -672,11 +672,11 @@ int main(int ac, char **av)
 			fprintf(stderr, _("\n*** Error during writing of the configuration.\n\n"));
 			exit(1);
 		}
-		/* In crosstool-NG, we do not use the autoconf stuff
+		/* In crosstool-NG, we do not use the autoconf stuff */
 		if (conf_write_autoconf()) {
 			fprintf(stderr, _("\n*** Error during update of the configuration.\n\n"));
 			return 1;
-		} */
+		}
 	} else if (input_mode == savedefconfig) {
 		if (conf_write_defconfig(defconfig_file)) {
 			fprintf(stderr, _("n*** Error while saving defconfig to: %s\n\n"),
