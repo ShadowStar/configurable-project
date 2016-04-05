@@ -1,13 +1,14 @@
-TAGS_DIR ?= $(CURDIR)
-IGNORE_LIST ?=
+TAGS_DIR := $(TOPDIR)
+IGNORE_LIST := $(TOPDIR)/scripts
 FIND ?= find
 CTAGS ?= ctags
 CSCOPE ?= cscope
 
 ignore_files = $(subst $(TAGS_DIR)/,,$(IGNORE_LIST))
 prune_files = $(if $(ignore_files),-path $(TAGS_DIR)/$(firstword $(ignore_files)) \
-	        $(addprefix -o -path $(TAGS_DIR)/,\
-		  $(wordlist 2,$(words $(ignore_files)),$(ignore_files))),-path x$(TAGS_DIR))
+		$(addprefix -o -path $(TAGS_DIR)/,\
+		  $(wordlist 2,$(words $(ignore_files)),$(ignore_files))),\
+		-path x$(TAGS_DIR))
 
 define files-list
 	$(FIND) $(TAGS_DIR) \( $(prune_files) \) -prune -o \
@@ -23,10 +24,7 @@ define tags-gen
 	@$(CTAGS) --c-kinds=+px --fields=+iaS --extra=+q -L cscope.files
 endef
 
-tags:
-	$(tags-gen)
-
-tags.%:
+tags tags%:
 	$(tags-gen)
 
 tags.clean:
