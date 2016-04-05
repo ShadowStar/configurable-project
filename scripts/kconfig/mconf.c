@@ -983,7 +983,7 @@ static int handle_exit(void)
 		if (!silent)
 			printf(_("\n\n"
 				 "*** End of the configuration.\n"
-				 "*** Execute 'ct-ng build' to start the build or try 'ct-ng help'."
+				 "*** Execute 'make' to start the build or try 'make help-config'."
 				 "\n\n"));
 		res = 0;
 		break;
