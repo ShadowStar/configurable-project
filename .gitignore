@@ -72,6 +72,8 @@ Temporary Items
 
 .*
 !.git*
+tags
+cscope.*
 
 .config
 staging/
