@@ -12,7 +12,7 @@ OBJDUMP := $(CROSS_PREFIX)objdump
 RANLIB := $(CROSS_PREFIX)ranlib
 STRIP := $(CROSS_PREFIX)strip
 
-CFLAGS := -MD -Wall -O2
+CFLAGS := -MD -Wall -Wextra -Wunused -Wshadow -O2
 
 TARGET :=
 OBJS := $($(wildcard *.c):.c=.o)
