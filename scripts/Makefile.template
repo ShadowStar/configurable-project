@@ -1,0 +1,30 @@
+_all: $(TARGET)
+
+AR := $(CROSS_PREFIX)ar
+AS := $(CROSS_PREFIX)as
+CC := $(CROSS_PREFIX)gcc
+CPP := $(CROSS_PREFIX)cpp
+GCC := $(CROSS_PREFIX)gcc
+LD := $(CROSS_PREFIX)ld
+NM := $(CROSS_PREFIX)nm
+OBJCOPY := $(CROSS_PREFIX)objcopy
+OBJDUMP := $(CROSS_PREFIX)objdump
+RANLIB := $(CROSS_PREFIX)ranlib
+STRIP := $(CROSS_PREFIX)strip
+
+CFLAGS := -MD -Wall -O2
+
+TARGET :=
+OBJS := $($(wildcard *.c):.c=.o)
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+clean:
+	-@rm -f $(TARGET) *.d *.o *.a *.so
+
+distclean: clean
+	-@rm -f tags cscope.*
+
+-include $(wildcard *.d)
+
