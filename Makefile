@@ -6,10 +6,11 @@ TOPDIR := $(CURDIR)
 DOT_CFG := $(TOPDIR)/.config
 STAGING_DIR := $(TOPDIR)/staging
 PATH := $(STAGING_DIR)/bin:$(PATH)
+CROSS_PREFIX := $(CFG_CROSS_TOOLCHAIN)
 ifneq ($(GNUPATH),)
   PATH := $(GNUPATH):$(PATH)
 endif
-export SHELL PATH TOPDIR
+export SHELL PATH TOPDIR CROSS_PREFIX
 
 include scripts/verbose.mk
 include scripts/version.mk

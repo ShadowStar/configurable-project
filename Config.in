@@ -1,2 +1,6 @@
 mainmenu "Project Configuration"
 
+config CROSS_TOOLCHAIN
+	string "Cross Toolchain Prefix"
+	help
+	  Leave empty if native build
