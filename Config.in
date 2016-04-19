@@ -4,3 +4,8 @@ config CROSS_TOOLCHAIN
 	string "Cross Toolchain Prefix"
 	help
 	  Leave empty if native build
+
+config TARGET_CFLAGS
+	string "Target CFLAGS"
+	help
+	  Specify target platform special CFLAGS as usual
