@@ -28,7 +28,7 @@ endif
 include $(TOPDIR)/scripts/kconfig/kconfig.mk
 
 kconfig.clean:
-	-@rm -f include/config/*
+	-@rm -rf include/config/*
 	-@rm -f include/autoconf.h
 
 kconfig.distclean:
