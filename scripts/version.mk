@@ -1,5 +1,7 @@
-VERSION := $(shell $(TOPDIR)/scripts/git-vergen -d $(TOPDIR))
-VERSION_FULL := $(shell $(TOPDIR)/scripts/git-vergen -f -d $(TOPDIR))
+-include $(TOPDIR)/include/config/auto.conf
+
+VERSION := $(shell $(TOPDIR)/scripts/git-vergen -r $(CFG_BUILD_LEVEL_SHORT_NAME) -d $(TOPDIR))
+VERSION_FULL := $(shell $(TOPDIR)/scripts/git-vergen -r $(CFG_BUILD_LEVEL_SHORT_NAME) -f -d $(TOPDIR))
 
 no-dot-cfg-targets += $(TOPDIR)/include/version.h
 

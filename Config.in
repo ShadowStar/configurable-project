@@ -1,5 +1,57 @@
 mainmenu "Project Configuration"
 
+choice
+	prompt "Build Level"
+	config BUILD_FOR_ALPHA
+		bool "Alpha Version"
+
+	config BUILD_FOR_BETA
+		bool "Beta Version"
+
+	config BUILD_FOR_CAND
+		bool "Candidate Version"
+
+	config BUILD_FOR_DIST
+		bool "Distribution Version"
+endchoice
+
+config BUILD_ALPHA
+	int
+	default 0
+
+config BUILD_BETA
+	int
+	default 1
+
+config BUILD_CAND
+	int
+	default 2
+
+config BUILD_DIST
+	int
+	default 3
+
+config BUILD_LEVEL
+	int
+	default BUILD_ALPHA if BUILD_FOR_ALPHA
+	default BUILD_BETA if BUILD_FOR_BETA
+	default BUILD_CAND if BUILD_FOR_CAND
+	default BUILD_DIST if BUILD_FOR_DIST
+
+config BUILD_LEVEL_NAME
+	string
+	default "Alpha" if BUILD_FOR_ALPHA
+	default "Beta" if BUILD_FOR_BETA
+	default "Cand" if BUILD_FOR_CAND
+	default "Dist" if BUILD_FOR_DIST
+
+config BUILD_LEVEL_SHORT_NAME
+	string
+	default "a" if BUILD_FOR_ALPHA
+	default "b" if BUILD_FOR_BETA
+	default "c" if BUILD_FOR_CAND
+	default "d" if BUILD_FOR_DIST
+
 config CROSS_TOOLCHAIN
 	string "Cross Toolchain Prefix"
 	help

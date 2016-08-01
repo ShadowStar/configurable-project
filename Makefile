@@ -14,8 +14,8 @@ endif
 export SHELL PATH TOPDIR CROSS_PREFIX
 
 include scripts/verbose.mk
-include scripts/version.mk
 include scripts/kconfig.mk
+include scripts/version.mk
 
 no-dot-cfg-targets := %clean tags%
 
