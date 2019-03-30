@@ -549,8 +549,7 @@ int main(int ac, char **av)
 			fprintf(stderr, _("***\n"
 				"*** Configuration file \"%s\" not found!\n"
 				"***\n"
-				"*** Please configure with \"menuconfig\", or use a\n"
-				"*** pre-existing sample (see list with \"list-samples\").\n"
+				"*** Please configure with \"menuconfig\" or \"nconfig\".\n"
 				"***\n"), name);
 			exit(1);
 		}
