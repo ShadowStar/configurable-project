@@ -7,33 +7,31 @@
 configurators = menuconfig nconfig oldconfig savedefconfig defconfig
 PHONY += $(configurators)
 
-$(configurators): config_files
-
-config_files:
-	@$(MAKE) -C $(KCONFIG_DIR) PATH=$(PATH)
-
 # We need CONF for savedefconfig in scripts/saveSample.sh
 export CONF  := $(KCONFIG_DIR)/conf
 MCONF := $(KCONFIG_DIR)/mconf
 NCONF := $(KCONFIG_DIR)/nconf
 
-menuconfig:
+$(CONF) $(MCONF) $(NCONF):
+	@$(MAKE) -C $(KCONFIG_DIR) PATH=$(PATH) $(@F)
+
+menuconfig: $(MCONF)
 	@$(ECHO) "  CONF  $(KCONFIG_TOP)"
 	$(SILENT)$(MCONF) $(KCONFIG_TOP)
 
-nconfig:
+nconfig: $(NCONF)
 	@$(ECHO) "  CONF  $(KCONFIG_TOP)"
 	$(SILENT)$(NCONF) $(KCONFIG_TOP)
 
-oldconfig: .config
+oldconfig: .config $(CONF)
 	@$(ECHO) "  CONF  $(KCONFIG_TOP)"
 	$(SILENT)$(CONF) --silent$@ $(KCONFIG_TOP)
 
-savedefconfig: .config
+savedefconfig: .config $(CONF)
 	@$(ECHO) '  GEN   $@'
 	$(SILENT)$(CONF) --savedefconfig=$${DEFCONFIG-defconfig} $(KCONFIG_TOP)
 
-defconfig:
+defconfig: $(CONF)
 	@$(ECHO) '  CONF  $@'
 	$(SILENT)$(CONF) --defconfig=$${DEFCONFIG-defconfig} $(KCONFIG_TOP)
 
