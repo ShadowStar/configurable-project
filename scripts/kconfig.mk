@@ -2,7 +2,7 @@ KCONFIG_DIR := $(TOPDIR)/scripts/kconfig
 KCONFIG_TOP := $(TOPDIR)/Config.in
 NEED_DOT_CFG := yes
 
-no-dot-cfg-targets += menuconfig kconfig.clean
+no-dot-cfg-targets += menuconfig nconfig defconfig kconfig.clean
 
 ifneq ($(filter $(no-dot-cfg-targets),$(MAKECMDGOALS)),)
   ifeq ($(filter-out $(no-dot-cfg-targets),$(MAKECMDGOALS)),)

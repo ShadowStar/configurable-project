@@ -3,7 +3,7 @@
 VERSION := $(shell $(TOPDIR)/scripts/git-vergen -r $(CFG_BUILD_LEVEL_SHORT_NAME) -d $(TOPDIR))
 VERSION_FULL := $(shell $(TOPDIR)/scripts/git-vergen -r $(CFG_BUILD_LEVEL_SHORT_NAME) -f -d $(TOPDIR))
 
-no-dot-cfg-targets += $(TOPDIR)/include/version.h
+no-dot-cfg-targets += $(TOPDIR)/include/version.h version
 
 $(TOPDIR)/include/version.h: FORCE
 	@echo "#define VERSION \"$(VERSION)\"" > $@
