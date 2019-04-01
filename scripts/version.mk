@@ -19,6 +19,8 @@ version:
 version.clean:
 	-@rm -f $(TOPDIR)/include/version.h
 
+clean: version.clean
+
 PHONY += FORCE
 
 .PHONY: $(PHONY)

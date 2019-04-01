@@ -30,5 +30,7 @@ tags:
 tags.clean:
 	@-rm -f cscope.* tags
 
+clean: tags.clean
+
 .PHONY: tags
 

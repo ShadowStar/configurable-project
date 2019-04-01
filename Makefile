@@ -1,13 +1,13 @@
 _all: prepare all
 
-PHONY := _all all $(wildcard *)
+PHONY := _all all
 SHELL := /bin/bash
 TOPDIR := $(CURDIR)
 DOT_CFG := $(TOPDIR)/.config
 STAGING_DIR := $(TOPDIR)/staging
 PATH := $(STAGING_DIR)/bin:$(PATH)
-CROSS_PREFIX := $(CFG_CROSS_TOOLCHAIN)
-TARGET_CFLAGS := $(CFG_TARGET_CFLAGS)
+SRC_DIR :=
+
 ifneq ($(GNUPATH),)
   PATH := $(GNUPATH):$(PATH)
 endif
@@ -24,12 +24,10 @@ endif
 export SHELL PATH TOPDIR STAGING_DIR DEST_DIR
 
 include scripts/verbose.mk
-include scripts/kconfig.mk
-include scripts/version.mk
 
 no-dot-cfg-targets := %clean tags%
 
-all: $(TOPDIR)/include/autoconf.h $(TOPDIR)/include/version.h
+all:
 
 $(configurators): $(STAGING_DIR)/.PrePared
 
@@ -39,15 +37,31 @@ $(STAGING_DIR)/.PrePared: prepare
 include scripts/pre-cmds.mk
 prepare: $(pre-cmd-list)
 
-clean: kconfig.clean version.clean
+clean:
+	$(foreach m, $(addsuffix /clean,$(SRC_DIR)), $(MAKE) $(m);)
 
-distclean: kconfig.distclean tags.clean clean
+distclean: clean
 	-@rm -rf $(STAGING_DIR)
 	-@rm -f .config*
 
 include scripts/tags-gen.mk
 CTAGS := exuberant-ctags
-IGNORE_LIST += $(TOPDIR)/include/config
+IGNORE_LIST += $(TOPDIR)/include/config $(TOPDIR)/scripts $(STAGING_DIR) $(DEST_DIR)
+
+define TARGETS
+$(1)/%: FORCE
+	$$(MAKE) -C $$(@D) $$(@F)
+endef
+
+$(foreach t,$(SRC_DIR),$(eval $(call TARGETS,$(t))))
+
+$(BUILD_TARGETS-y) $(BUILD_TARGETS-m): FORCE
+	$(SILENT)$(MAKE) -C $@ all
+
+all: $(BUILD_TARGETS-y) $(BUILD_TARGETS-m)
+
+include scripts/version.mk
+include scripts/kconfig.mk
 
 PHONY += FORCE
 FORCE:

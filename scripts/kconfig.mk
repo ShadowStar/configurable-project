@@ -31,8 +31,11 @@ kconfig.clean:
 	-@rm -rf include/config/*
 	-@rm -f include/autoconf.h
 
-kconfig.distclean:
+kconfig.distclean: kconfig.clean
 	-@rm -f $(KCONFIG_DIR)/*.o $(KCONFIG_DIR)/*.dep
 	-@rm -f $(KCONFIG_DIR)/zconf.*.c
 	-@rm -f $(KCONFIG_DIR)/lxdialog/*.o $(KCONFIG_DIR)/lxdialog/*.dep
 	-@rm -f $(KCONFIG_DIR)/conf $(KCONFIG_DIR)/mconf $(KCONFIG_DIR)/nconf
+
+clean: kconfig.clean
+distclean: kconfig.distclean
