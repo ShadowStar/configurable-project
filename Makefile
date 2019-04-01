@@ -11,7 +11,17 @@ TARGET_CFLAGS := $(CFG_TARGET_CFLAGS)
 ifneq ($(GNUPATH),)
   PATH := $(GNUPATH):$(PATH)
 endif
-export SHELL PATH TOPDIR CROSS_PREFIX
+CT_PATH := $(strip $(subst ",,$(CFG_CROSS_TOOLCHAIN_PATH)))
+ifneq (x$(CT_PATH),x)
+  PATH := $(CT_PATH):$(PATH)
+endif
+
+DEST_DIR := $(strip $(subst ",,$(CFG_DEST_DIR)))
+ifeq (x$(DEST_DIR),x)
+  DEST_DIR := $(TOPDIR)/bin
+endif
+
+export SHELL PATH TOPDIR STAGING_DIR DEST_DIR
 
 include scripts/verbose.mk
 include scripts/kconfig.mk

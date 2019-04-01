@@ -57,7 +57,20 @@ config CROSS_TOOLCHAIN
 	help
 	  Leave empty if native build
 
+config CROSS_TOOLCHAIN_PATH
+	string "Cross Toolchain's path"
+	depends on CROSS_TOOLCHAIN != ""
+
+config TARGET_ARCH
+	string "Target Arch"
+	help
+	  Specify target platform architecture
+
 config TARGET_CFLAGS
 	string "Target CFLAGS"
 	help
 	  Specify target platform special CFLAGS as usual
+
+config DEST_DIR
+	string "Output Directory"
+
