@@ -1,5 +1,5 @@
-TAGS_DIR := $(TOPDIR)
-IGNORE_LIST := $(TOPDIR)/scripts
+TAGS_DIR ?= $(TOPDIR)
+IGNORE_LIST :=
 FIND ?= find
 CTAGS ?= ctags
 CSCOPE ?= cscope
@@ -24,7 +24,7 @@ define tags-gen
 	@$(CTAGS) --c-kinds=+px --fields=+iaS --extra=+q -L cscope.files
 endef
 
-tags tags%:
+tags:
 	$(tags-gen)
 
 tags.clean:
