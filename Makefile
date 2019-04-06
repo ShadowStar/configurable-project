@@ -8,6 +8,8 @@ STAGING_DIR := $(TOPDIR)/staging
 PATH := $(STAGING_DIR)/bin:$(PATH)
 SRC_DIR :=
 
+-include $(TOPDIR)/include/config/auto.conf
+
 ifneq ($(GNUPATH),)
   PATH := $(GNUPATH):$(PATH)
 endif
