@@ -29,8 +29,6 @@ no-dot-cfg-targets := %clean tags%
 
 all:
 
-$(configurators): $(STAGING_DIR)/.PrePared
-
 $(STAGING_DIR)/.PrePared: prepare
 	@touch $(STAGING_DIR)/.PrePared
 
@@ -62,6 +60,8 @@ all: $(BUILD_TARGETS-y) $(BUILD_TARGETS-m)
 
 include scripts/version.mk
 include scripts/kconfig.mk
+
+$(configurators): $(STAGING_DIR)/.PrePared
 
 PHONY += FORCE
 FORCE:
