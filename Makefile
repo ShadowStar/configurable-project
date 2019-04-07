@@ -1,4 +1,4 @@
-_all: prepare all
+_all: all
 
 PHONY := _all all
 SHELL := /bin/bash
@@ -29,28 +29,17 @@ include scripts/verbose.mk
 
 no-dot-cfg-targets := %clean tags%
 
-all:
-
 $(STAGING_DIR)/.PrePared: prepare
-	@touch $(STAGING_DIR)/.PrePared
+	$(SILENT)touch $(STAGING_DIR)/.PrePared
 
 include scripts/pre-cmds.mk
 prepare: $(pre-cmd-list)
 
-clean:
-	$(foreach m, $(addsuffix /clean,$(SRC_DIR)), $(MAKE) $(m);)
-
-distclean: clean
-	-@rm -rf $(STAGING_DIR)
-	-@rm -f .config*
-
-include scripts/tags-gen.mk
-CTAGS := exuberant-ctags
-IGNORE_LIST += $(TOPDIR)/include/config $(TOPDIR)/scripts $(STAGING_DIR) $(DEST_DIR)
+include Project.mk
 
 define TARGETS
 $(1)/%: FORCE
-	$$(MAKE) -C $$(@D) $$(@F)
+	$$(SILENT)$$(MAKE) -C $$(@D) $$(@F)
 endef
 
 $(foreach t,$(SRC_DIR),$(eval $(call TARGETS,$(t))))
@@ -58,12 +47,23 @@ $(foreach t,$(SRC_DIR),$(eval $(call TARGETS,$(t))))
 $(BUILD_TARGETS-y) $(BUILD_TARGETS-m): FORCE
 	$(SILENT)$(MAKE) -C $@ all
 
-all: $(BUILD_TARGETS-y) $(BUILD_TARGETS-m)
+clean:
+	$(foreach m, $(addsuffix /clean,$(SRC_DIR)), -$(SILENT)$(MAKE) $(m);)
+
+distclean: clean
+	-$(SILENT)rm -rf $(STAGING_DIR)
+	-$(SILENT)rm -f .config*
 
 include scripts/version.mk
 include scripts/kconfig.mk
 
 $(configurators): $(STAGING_DIR)/.PrePared
+
+include scripts/tags-gen.mk
+CTAGS := exuberant-ctags
+IGNORE_LIST += $(TOPDIR)/include/config $(TOPDIR)/scripts $(STAGING_DIR) $(DEST_DIR)
+
+all: $(BUILD_TARGETS-y) $(BUILD_TARGETS-m)
 
 PHONY += FORCE
 FORCE:
