@@ -20,7 +20,7 @@ $(DOT_CFG) $(TOPDIR)/include/config/auto.conf.cmd: ;
 $(TOPDIR)/include/config/auto.conf: $(KCONFIG_TOP) $(DOT_CFG) $(KCONFIG_DIR)/conf
 
 $(TOPDIR)/include/config/auto.conf: $(TOPDIR)/include/config/auto.conf.cmd
-	@$(KCONFIG_DIR)/conf --silentoldconfig $(KCONFIG_TOP)
+	$(SILENT)$(KCONFIG_DIR)/conf --silentoldconfig $(KCONFIG_TOP)
 
 $(TOPDIR)/include/autoconf.h: $(TOPDIR)/include/config/auto.conf
 endif
@@ -28,14 +28,14 @@ endif
 include $(TOPDIR)/scripts/kconfig/kconfig.mk
 
 kconfig.clean:
-	-@rm -rf include/config/*
-	-@rm -f include/autoconf.h
+	-$(SILENT)rm -rf include/config/*
+	-$(SILENT)rm -f include/autoconf.h
 
 kconfig.distclean: kconfig.clean
-	-@rm -f $(KCONFIG_DIR)/*.o $(KCONFIG_DIR)/*.dep
-	-@rm -f $(KCONFIG_DIR)/zconf.*.c
-	-@rm -f $(KCONFIG_DIR)/lxdialog/*.o $(KCONFIG_DIR)/lxdialog/*.dep
-	-@rm -f $(KCONFIG_DIR)/conf $(KCONFIG_DIR)/mconf $(KCONFIG_DIR)/nconf
+	-$(SILENT)rm -f $(KCONFIG_DIR)/*.o $(KCONFIG_DIR)/*.dep
+	-$(SILENT)rm -f $(KCONFIG_DIR)/zconf.*.c
+	-$(SILENT)rm -f $(KCONFIG_DIR)/lxdialog/*.o $(KCONFIG_DIR)/lxdialog/*.dep
+	-$(SILENT)rm -f $(KCONFIG_DIR)/conf $(KCONFIG_DIR)/mconf $(KCONFIG_DIR)/nconf
 
 clean: kconfig.clean
 distclean: kconfig.distclean

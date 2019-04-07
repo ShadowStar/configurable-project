@@ -21,10 +21,10 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 clean:
-	-@rm -f $(TARGET) *.d *.o *.a *.so
+	-$(SILENT)rm -f $(TARGET) *.d *.o *.a *.so
 
 distclean: clean
-	-@rm -f tags cscope.*
+	-$(SILENT)rm -f tags cscope.*
 
 -include $(wildcard *.d)
 

@@ -2,8 +2,8 @@ pre-cmds := find xargs md5sum cp stat grep egrep fgrep lzma sed awk
 
 define PreCmd
 $(STAGING_DIR)/bin/$(1):
-	@mkdir -p "$$(dir $$@)"; rm -f "$$@"
-	@export FILE="$$$$(which $(2) 2>/dev/null | grep -v 'not found' | head -n1)"; \
+	$(SILENT)mkdir -p "$$(dir $$@)"; rm -f "$$@"
+	$(SILENT)export FILE="$$$$(which $(2) 2>/dev/null | grep -v 'not found' | head -n1)"; \
 		[ -n "$$$$FILE" ] || { echo "Command $(1) not found."; false; }; \
 		ln -s "$$$$FILE" "$$@"
 
