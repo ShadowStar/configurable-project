@@ -47,8 +47,7 @@ $(foreach t,$(SRC_DIR),$(eval $(call TARGETS,$(t))))
 $(BUILD_TARGETS-y) $(BUILD_TARGETS-m): FORCE
 	$(SILENT)$(MAKE) -C $@ all
 
-clean:
-	$(foreach m, $(addsuffix /clean,$(SRC_DIR)), -$(SILENT)$(MAKE) $(m);)
+clean: $(addsuffix /clean,$(SRC_DIR))
 
 distclean: clean
 	-$(SILENT)rm -rf $(STAGING_DIR)
