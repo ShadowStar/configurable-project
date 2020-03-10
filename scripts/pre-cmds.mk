@@ -6,7 +6,7 @@ $(STAGING_DIR)/bin/$(1):
 	$(SILENT)export FILE="$$$$(which $(2) 2>/dev/null | grep -v 'not found' | head -n1)"; \
 		[ -n "$$$$FILE" ] || { echo "Command $(1) not found."; false; }; \
 		ln -s "$$$$FILE" "$$@"
-
+export $(1) := $(STAGING_DIR)/bin/$(1)
 endef
 
 $(eval $(call PreCmd,find,gfind find))
