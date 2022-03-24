@@ -7,7 +7,7 @@ DOT_CFG := $(TOPDIR)/.config
 STAGING_DIR := $(TOPDIR)/staging
 PATH := $(STAGING_DIR)/bin:$(PATH)
 DEST_DIR := $(CFG_DEST_DIR)
-BUILD_DIR := 
+BUILD_DIR := $(patsubst %/,%,$(sort $(dir $(wildcard */Makefile))))
 
 ifeq (x$(DEST_DIR),x)
   DEST_DIR := $(TOPDIR)/bin
@@ -52,8 +52,7 @@ $(1)/%: FORCE
 endef
 
 $(foreach t,$(BUILD_DIR),$(eval $(call TARGETS,$(t))))
-
-BUILD_TARGETS-$(CFG_xyz) += xyz
+$(foreach t,$(BUILD_DIR),$(eval BUILD_TARGETS-$(CFG_$(t)) += $(t)))
 
 $(BUILD_TARGETS-y) $(BUILD_TARGETS-m): FORCE
 	$(SILENT)PATH=$(PATH) $(MAKE) -C $@
