@@ -7,7 +7,7 @@ DOT_CFG := $(TOPDIR)/.config
 STAGING_DIR := $(TOPDIR)/staging
 PATH := $(STAGING_DIR)/bin:$(PATH)
 DEST_DIR := $(CFG_DEST_DIR)
-BUILD_DIR := $(patsubst %/,%,$(sort $(dir $(wildcard */Makefile))))
+BUILD_DIR := $(patsubst %/,%,$(sort $(dir $(wildcard */sub-dir.mk))))
 
 ifeq (x$(DEST_DIR),x)
   DEST_DIR := $(TOPDIR)/bin
@@ -48,14 +48,14 @@ IGNORE_LIST += include/config
 
 define TARGETS
 $(1)/%: FORCE
-	$$(SILENT)PATH=$$(PATH) $$(MAKE) -C $$(firstword $$(subst /, ,$$@)) $$(subst $$(firstword $$(subst /, ,$$@))/,,$$@)
+	$$(SILENT)PATH=$$(PATH) $$(MAKE) -f sub-dir.mk -C $$(firstword $$(subst /, ,$$@)) $$(subst $$(firstword $$(subst /, ,$$@))/,,$$@)
 endef
 
 $(foreach t,$(BUILD_DIR),$(eval $(call TARGETS,$(t))))
 $(foreach t,$(BUILD_DIR),$(eval BUILD_TARGETS-$(CFG_$(t)) += $(t)))
 
 $(BUILD_TARGETS-y) $(BUILD_TARGETS-m): FORCE
-	$(SILENT)PATH=$(PATH) $(MAKE) -C $@
+	$(SILENT)PATH=$(PATH) $(MAKE) -f sub-dir.mk -C $@
 
 all: $(BUILD_TARGETS-y) $(BUILD_TARGETS-m)
 
