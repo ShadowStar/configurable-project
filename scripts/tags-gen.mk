@@ -1,5 +1,5 @@
-TAGS_DIR ?= $(TOPDIR)
-IGNORE_LIST :=
+TAGS_DIR := $(TOPDIR)
+IGNORE_LIST := $(TOPDIR)/scripts $(STAGING_DIR) $(DEST_DIR)
 FIND ?= find
 CTAGS ?= ctags
 CSCOPE ?= cscope
@@ -16,21 +16,19 @@ define files-list
 endef
 
 define tags-gen
-	$(SILENT)echo ">>> Building Source Files List" >&2
-	$(SILENT)$(files-list) > cscope.files
-	$(SILENT)echo ">>> Building Cscope Database" >&2
-	$(SILENT)$(CSCOPE) -bqk -i cscope.files
-	$(SILENT)echo ">>> Building Ctags Database" >&2
-	$(SILENT)$(CTAGS) --c-kinds=+px --fields=+iaS --extra=+q -L cscope.files
+	@echo ">>> Building Source Files List" >&2
+	@$(files-list) > cscope.files
+	@echo ">>> Building Cscope Database" >&2
+	@$(CSCOPE) -bqk -i cscope.files
+	@echo ">>> Building Ctags Database" >&2
+	@$(CTAGS) --c-kinds=+px --fields=+iaS --extra=+q -L cscope.files
 endef
 
 tags:
 	$(tags-gen)
 
 tags.clean:
-	-$(SILENT)rm -f cscope.* tags
-
-clean: tags.clean
+	@-rm -f cscope.* tags
 
 .PHONY: tags
 
