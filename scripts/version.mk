@@ -7,19 +7,17 @@ export PRJ_VERSION PRJ_VERSION_FULL
 no-dot-cfg-targets += $(TOPDIR)/include/version.h version
 
 $(TOPDIR)/include/version.h: FORCE
-	$(SILENT)echo "#define PRJ_VERSION \"$(PRJ_VERSION)\"" > $@
-	$(SILENT)echo "#define PRJ_VERSION_FULL \"$(PRJ_VERSION_FULL)\"" >> $@
-	$(SILENT)echo "#define PRJ_GIT_SHA1 0x$(PRJ_GIT_SHA1)" >> $@
+	@echo "#define PRJ_VERSION \"$(PRJ_VERSION)\"" > $@
+	@echo "#define PRJ_VERSION_FULL \"$(PRJ_VERSION_FULL)\"" >> $@
+	@echo "#define PRJ_GIT_SHA1 0x$(PRJ_GIT_SHA1)" >> $@
 
 version:
-	$(SILENT)echo "PRJ_VERSION:      $(PRJ_VERSION)"
-	$(SILENT)echo "PRJ_VERSION_FULL: $(PRJ_VERSION_FULL)"
-	$(SILENT)echo "PRJ_GIT_SHA1:     $(PRJ_GIT_SHA1)"
+	@echo "PRJ_VERSION:      $(PRJ_VERSION)"
+	@echo "PRJ_VERSION_FULL: $(PRJ_VERSION_FULL)"
+	@echo "PRJ_GIT_SHA1:     $(PRJ_GIT_SHA1)"
 
 version.clean:
-	-$(SILENT)rm -f $(TOPDIR)/include/version.h
-
-clean: version.clean
+	-@rm -f $(TOPDIR)/include/version.h
 
 PHONY += FORCE
 
