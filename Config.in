@@ -53,13 +53,15 @@ config BUILD_LEVEL_SHORT_NAME
 	default "d" if BUILD_FOR_DIST
 
 config CROSS_TOOLCHAIN
-	string "Cross Toolchain Prefix"
+	string "Prefix of (Cross Compile) Toolchain"
 	help
 	  Leave empty if native build
 
-config CROSS_TOOLCHAIN_PATH
-	string "Cross Toolchain's path"
-	depends on CROSS_TOOLCHAIN != ""
+config TOOLCHAIN_PATH
+	string "Path of Toolchain"
+
+config SYSROOT_PATH
+	string "Path of (Cross Compile) sysroot"
 
 config TARGET_ARCH
 	string "Target Arch"
