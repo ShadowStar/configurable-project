@@ -1,0 +1,7 @@
+menuconfig @@dir_name@@
+	bool "@@dir_name@@"
+
+if @@dir_name@@
+	config @@dir_name@@_@@module_name@@
+	bool "Enable @@module_name@@"
+endif
