@@ -2,7 +2,7 @@
 # Hmmm! Cheesy build!
 # Or: where I can unveil my make-fu... :-]
 
-all: conf mconf nconf
+all: conf mconf
 	@true   # Just be silent, you fscking son of a fscking beach...
 
 # Build flags
