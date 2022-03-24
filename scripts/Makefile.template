@@ -1,30 +1,18 @@
 _all: $(TARGET)
 
-AR := $(CROSS_PREFIX)ar
-AS := $(CROSS_PREFIX)as
-CC := $(CROSS_PREFIX)gcc
-CPP := $(CROSS_PREFIX)cpp
-GCC := $(CROSS_PREFIX)gcc
-LD := $(CROSS_PREFIX)ld
-NM := $(CROSS_PREFIX)nm
-OBJCOPY := $(CROSS_PREFIX)objcopy
-OBJDUMP := $(CROSS_PREFIX)objdump
-RANLIB := $(CROSS_PREFIX)ranlib
-STRIP := $(CROSS_PREFIX)strip
-
-CFLAGS := $(TARGET_CFLAGS) -MD -Wall -Wextra -Wunused -Wshadow -O2
+include $(TOPDIR)/scripts/toolchain.mk
 
 TARGET :=
 OBJS := $($(wildcard *.c):.c=.o)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(SILENT)$(CC) $(CFLAGS) -o $@ $^
 
 clean:
-	-$(SILENT)rm -f $(TARGET) *.d *.o *.a *.so
+	-@rm -f $(TARGET) *.d *.o *.a *.so
 
 distclean: clean
-	-$(SILENT)rm -f tags cscope.*
+	-@rm -f tags cscope.*
 
 -include $(wildcard *.d)
 
