@@ -70,6 +70,7 @@ config TARGET_ARCH
 
 config TARGET_CFLAGS
 	string "Target CFLAGS"
+	default "-O2 -Wall -Wextra -Wunused -Wshadow -MD"
 	help
 	  Specify target platform special CFLAGS as usual
 

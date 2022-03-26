@@ -16,7 +16,7 @@ endef
 $(foreach t,$(TOOLCHAIN_UTILS),$(eval export $(call _upper,$(t)) := $(_CROSS)$(t)))
 export CC := $(GCC)
 
-CFLAGS := -O2 -Wall -Wextra -Wunused -Wshadow -MD $(shell echo $(CFG_TARGET_CFLAGS))
+CFLAGS := $(shell echo $(CFG_TARGET_CFLAGS))
 
 ifneq ($(call _str,$(CFG_SYSROOT_PATH)),)
   CFLAGS += -isysroot $(CFG_SYSROOT_PATH)
