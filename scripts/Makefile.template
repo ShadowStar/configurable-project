@@ -1,12 +1,15 @@
+TARGET := 
+
 _all: $(TARGET)
 
 include $(TOPDIR)/scripts/toolchain.mk
 
-TARGET :=
-OBJS := $($(wildcard *.c):.c=.o)
+SRC := $(wildcard *.c)
+OBJS := $(SRC:.c=.o)
+CFLAGS += 
 
 $(TARGET): $(OBJS)
-	$(SILENT)$(CC) $(CFLAGS) -o $@ $^
+	$(SILENT)$(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
 
 clean:
 	-@rm -f $(TARGET) *.d *.o *.a *.so
