@@ -28,7 +28,9 @@
 #endif
 
 #ifndef __BYTE_ORDER
-#if defined(__x86_64__) || defined(__i386__) ||                             \
+#ifdef __BYTE_ORDER__
+#define __BYTE_ORDER        __BYTE_ORDER__
+#elif defined(__x86_64__) || defined(__i386__) ||                           \
     defined(__MIPSEL) || defined(__ARMEL__)
 #define __BYTE_ORDER        __LITTLE_ENDIAN
 #elif defined(__MIPSEB) || defined(__ARMEB__)
