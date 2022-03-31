@@ -14,14 +14,15 @@ $(shell echo $(1) | tr "[:lower:]" "[:upper:]")
 endef
 
 $(foreach t,$(TOOLCHAIN_UTILS),$(eval export $(call _upper,$(t)) := $(_CROSS)$(t)))
-export CC := $(GCC)
 
 $(foreach t,$(LLVM_UTILS),$(eval export $(call _upper,$(t)) := $(t)))
 
 CFLAGS := $(shell echo $(CFG_TARGET_CFLAGS)) -I$(STAGING_DIR)/include -L$(STAGING_DIR)/lib -L$(STAGING_DIR)/lib64 -L$(STAGING_DIR)/lib32
 
 ifneq ($(call _str,$(CFG_SYSROOT_PATH)),)
-  CFLAGS += -isysroot $(CFG_SYSROOT_PATH)
+  GCC += --sysroot=$(CFG_SYSROOT_PATH)
+  CLANG += -isysroot $(CFG_SYSROOT_PATH)
+  export GCC CLANG
 endif
 
 ifneq ($(call _str,$(CFG_TOOLCHAIN_PATH)),)
@@ -36,3 +37,4 @@ ifeq ($(CFG_TARGET_ARCH),"")
 endif
 
 export CFLAGS CFG_TARGET_ARCH
+export CC := $(GCC)
