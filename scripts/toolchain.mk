@@ -18,7 +18,7 @@ export CC := $(GCC)
 
 $(foreach t,$(LLVM_UTILS),$(eval export $(call _upper,$(t)) := $(t)))
 
-CFLAGS := $(shell echo $(CFG_TARGET_CFLAGS))
+CFLAGS := $(shell echo $(CFG_TARGET_CFLAGS)) -I$(STAGING_DIR)/include -L$(STAGING_DIR)/lib -L$(STAGING_DIR)/lib64 -L$(STAGING_DIR)/lib32
 
 ifneq ($(call _str,$(CFG_SYSROOT_PATH)),)
   CFLAGS += -isysroot $(CFG_SYSROOT_PATH)
@@ -35,3 +35,4 @@ ifeq ($(CFG_TARGET_ARCH),"")
   CFG_TARGET_ARCH=$(shell $(GCC) -dumpmachine | cut -d'-' -f 1)
 endif
 
+export CFLAGS CFG_TARGET_ARCH
