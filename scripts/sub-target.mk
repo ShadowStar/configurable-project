@@ -14,14 +14,14 @@ FORCE:
 define build_sub_targets
 all: $(SUB_TARGET-y) $(SUB_TARGET-m) FORCE
 
-clean: $(addsuffix /clean,$(SUB_DIR))
+CLEAN_TARGETS := $(addsuffix /clean,$(SUB_DIR))
+INSTALL_TARGETS := $(addsuffix /install,$(SUB_TARGET-y) $(SUB_TARGET-m))
 
-install: $(addsuffix /install,$(SUB_DIR))
+clean: $$(CLEAN_TARGETS)
 
-$(addsuffix /clean,$(SUB_DIR)): FORCE
-	$$(SILENT)$$(MAKE) -C $$(shell echo $$@ | sed 's,/, ,')
+install: $$(INSTALL_TARGETS)
 
-$(addsuffix /install,$(SUB_DIR)): FORCE
+$$(CLEAN_TARGETS) $$(INSTALL_TARGETS): FORCE
 	$$(SILENT)$$(MAKE) -C $$(shell echo $$@ | sed 's,/, ,')
 endef
 
