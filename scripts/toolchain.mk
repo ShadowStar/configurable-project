@@ -17,7 +17,7 @@ $(foreach t,$(TOOLCHAIN_UTILS),$(eval export $(call _upper,$(t)) := $(_CROSS)$(t
 
 $(foreach t,$(LLVM_UTILS),$(eval export $(call _upper,$(t)) := $(t)))
 
-CFLAGS := $(shell echo $(CFG_TARGET_CFLAGS)) -I$(STAGING_DIR)/include -L$(STAGING_DIR)/lib -L$(STAGING_DIR)/lib64 -L$(STAGING_DIR)/lib32
+CFLAGS := $(shell echo $(CFG_TARGET_CFLAGS)) -I$(TOPDIR)/include -I$(STAGING_DIR)/include -L$(STAGING_DIR)/lib -L$(STAGING_DIR)/lib64 -L$(STAGING_DIR)/lib32
 
 ifneq ($(call _str,$(CFG_SYSROOT_PATH)),)
   GCC += --sysroot=$(CFG_SYSROOT_PATH)
