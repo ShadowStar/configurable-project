@@ -1,18 +1,14 @@
-TAGS_DIR := $(TOPDIR)
-IGNORE_LIST := $(TOPDIR)/scripts $(STAGING_DIR) $(DEST_DIR)
+TAGS_DIR := $(BUILD_DIR)
+IGNORE_LIST :=
 FIND ?= find
 CTAGS ?= ctags
 CSCOPE ?= cscope
 
-ignore_files = $(subst $(TAGS_DIR)/,,$(IGNORE_LIST))
-prune_files = $(if $(ignore_files),-path $(TAGS_DIR)/$(firstword $(ignore_files)) \
-		$(addprefix -o -path $(TAGS_DIR)/,\
-		  $(wordlist 2,$(words $(ignore_files)),$(ignore_files))),\
-		-path x$(TAGS_DIR))
+prune_files = $(if $(IGNORE_LIST),\( -path $(firstword $(IGNORE_LIST)) \
+		$(addprefix -o -path ,$(wordlist 2,$(words $(IGNORE_LIST)),$(IGNORE_LIST))) \) -prune -o,)
 
 define files-list
-	$(FIND) $(TAGS_DIR) \( $(prune_files) \) -prune -o \
-		\( -name "*.[chS]" -o -name "*.[ch]pp" \) -type f -print
+	$(FIND) $(TAGS_DIR) $(prune_files) \( -name "*.[chS]" -o -name "*.[ch]pp" \) -type f -print
 endef
 
 define tags-gen
