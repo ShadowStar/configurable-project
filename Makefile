@@ -18,11 +18,11 @@ endif
 
 export SHELL PATH TOPDIR STAGING_DIR DEST_DIR
 
+no-dot-cfg-targets := %clean tags%
+
 include scripts/verbose.mk
 include scripts/version.mk
 include scripts/kconfig.mk
-
-no-dot-cfg-targets := %clean tags%
 
 all:
 
