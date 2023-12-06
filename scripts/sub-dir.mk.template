@@ -3,9 +3,6 @@ include $(TOPDIR)/scripts/sub-target.mk
 SUB_DIR := $(patsubst %/,%,$(sort $(dir $(wildcard */Makefile))))
 $(foreach t,$(SUB_DIR),$(eval SUB_TARGET-$(CFG_$(notdir $(CURDIR))_$(t)) += $(t)))
 
-SUB_DIR += 
-SUB_TARGET-$(CFG_ ) += 
-
 $(SUB_TARGET-y) $(SUB_TARGET-m): FORCE
 	$(call export_macros,$(shell grep -i ^CFG_$(notdir $(CURDIR))_$@_ $(TOPDIR)/include/config/auto.conf))
 	$(SILENT)$(MAKE) -C $@
