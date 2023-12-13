@@ -1,4 +1,4 @@
-TAGS_DIR := $(BUILD_DIR)
+TAGS_DIR := $(BUILD_DIR) include
 IGNORE_LIST :=
 FIND ?= find
 CTAGS ?= ctags
