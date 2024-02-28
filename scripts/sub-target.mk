@@ -22,6 +22,7 @@ clean: $$(CLEAN_TARGETS)
 install: $$(INSTALL_TARGETS)
 
 $$(CLEAN_TARGETS) $$(INSTALL_TARGETS): FORCE
+	$$(SILENT)install -d $$(TARGET_STAG)
 	$$(SILENT)$$(MAKE) -C $$(shell echo $$@ | sed 's,/, ,')
 endef
 
