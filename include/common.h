@@ -240,6 +240,18 @@ typedef int8_t s8;
     (type *)( (char *)__mptr - offsetof(type, member) );})
 #endif /* container_of */
 
+#ifndef FALL_THROUGH
+#if defined(__GNUC__)
+#if defined(fallthrough)
+#define FALL_THROUGH fallthrough
+#elif ((__GNUC__ > 7) || ((__GNUC__ == 7) && (__GNUC_MINOR__ >= 1)))
+#define FALL_THROUGH ; __attribute__ ((fallthrough))
+#elif defined(__clang__) && defined(__clang_major__) && (__clang_major__ >= 12)
+#define FALL_THROUGH ; __attribute__ ((fallthrough))
+#endif
+#endif  /** __GNUC__ */
+#endif  /** FALL_THROUGH */
+
 /* Force a compilation error if condition is true, but also produce a
    result (of value 0 and type size_t), so the expression can be used
    e.g. in a structure initializer (or where-ever else comma expressions
