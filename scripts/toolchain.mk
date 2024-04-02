@@ -36,6 +36,8 @@ ifeq ($(CFG_TARGET_ARCH),"")
   CFG_TARGET_ARCH=$(shell $(GCC) -dumpmachine | cut -d'-' -f 1)
 endif
 
-export CFLAGS CFG_TARGET_ARCH
+CFG_TARGET=$(shell $(GCC) -dumpmachine)
+
+export CFLAGS CFG_TARGET CFG_TARGET_ARCH
 export CC := $(GCC)
-export TARGET_STAG = "$(STAGING_DIR)/$(shell $(GCC) -dumpmachine)"
+export TARGET_STAG = "$(STAGING_DIR)/$(CFG_TARGET)"
