@@ -2,8 +2,6 @@ TARGET :=
 
 _all: $(TARGET)
 
-include $(TOPDIR)/scripts/toolchain.mk
-
 SRC := $(wildcard *.c)
 OBJS := $(SRC:.c=.o)
 CFLAGS += 
