@@ -248,7 +248,11 @@ typedef int8_t s8;
 #define FALL_THROUGH ; __attribute__ ((fallthrough))
 #elif defined(__clang__) && defined(__clang_major__) && (__clang_major__ >= 12)
 #define FALL_THROUGH ; __attribute__ ((fallthrough))
+#else
+#define FALL_THROUGH do {} while (0)
 #endif
+#else
+#define FALL_THROUGH do {} while (0)
 #endif  /** __GNUC__ */
 #endif  /** FALL_THROUGH */
 
@@ -446,23 +450,6 @@ static inline int ___constant_ctz32(uint32_t x)
 #ifndef __BYTE_ORDER
 #define __BYTE_ORDER    __LITTLE_ENDIAN
 #endif
-
-#define arch_ror64(w, s)    ___constant_ror64(w, s)
-#define arch_ror32(w, s)    ___constant_ror32(w, s)
-#define arch_ror16(w, s)    ___constant_ror16(w, s)
-#define arch_ror8(w, s)     ___constant_ror8(w, s)
-
-#define arch_rol64(w, s)    ___constant_rol64(w, s)
-#define arch_rol32(w, s)    ___constant_rol32(w, s)
-#define arch_rol16(w, s)    ___constant_rol16(w, s)
-#define arch_rol8(w, s)     ___constant_rol8(w, s)
-
-#define arch_ctz64(x)       ___constant_ctz64(x)
-#define arch_ctz32(x)       ___constant_ctz32(x)
-
-#define arch_cto64(x)       ___constant_cto64(x)
-#define arch_cto32(x)       ___constant_cto32(x)
-
 static inline int arch_popcnt32(uint32_t x)
 {
     __asm__(
@@ -553,23 +540,6 @@ static inline uint64_t arch_swap64(uint64_t x)
 #ifndef __BYTE_ORDER
 #define __BYTE_ORDER        __LITTLE_ENDIAN
 #endif
-
-#define arch_ror64(w, s)    ___constant_ror64(w, s)
-#define arch_ror32(w, s)    ___constant_ror32(w, s)
-#define arch_ror16(w, s)    ___constant_ror16(w, s)
-#define arch_ror8(w, s)     ___constant_ror8(w, s)
-
-#define arch_rol64(w, s)    ___constant_rol64(w, s)
-#define arch_rol32(w, s)    ___constant_rol32(w, s)
-#define arch_rol16(w, s)    ___constant_rol16(w, s)
-#define arch_rol8(w, s)     ___constant_rol8(w, s)
-
-#define arch_ctz64(x)       ___constant_ctz64(x)
-#define arch_ctz32(x)       ___constant_ctz32(x)
-
-#define arch_cto64(x)       ___constant_cto64(x)
-#define arch_cto32(x)       ___constant_cto32(x)
-
 static inline int arch_popcnt32(uint32_t x)
 {
     __asm__(
@@ -745,12 +715,6 @@ static inline uint64_t arch_swap64(uint64_t x)
 #define arch_rol16(w, s)    arch_ror16(w, (16 - s))
 #define arch_rol8(w, s)     arch_ror8(w, (8 - s))
 
-#define arch_ctz64(x)       ___constant_ctz64(x)
-#define arch_ctz32(x)       ___constant_ctz32(x)
-
-#define arch_cto64(x)       ___constant_cto64(x)
-#define arch_cto32(x)       ___constant_cto32(x)
-
 static inline int arch_popcnt32(uint32_t x)
 {
     __asm__ (
@@ -841,22 +805,6 @@ static inline uint64_t arch_swap64(uint64_t x)
 #elif defined(__ARMEL__) && !defined(__BYTE_ORDER)
 #define __BYTE_ORDER    __LITTLE_ENDIAN
 #endif
-
-#define arch_ror64(w, s)    ___constant_ror64(w, s)
-#define arch_ror32(w, s)    ___constant_ror32(w, s)
-#define arch_ror16(w, s)    ___constant_ror16(w, s)
-#define arch_ror8(w, s)     ___constant_ror8(w, s)
-
-#define arch_rol64(w, s)    ___constant_rol64(w, s)
-#define arch_rol32(w, s)    ___constant_rol32(w, s)
-#define arch_rol16(w, s)    ___constant_rol16(w, s)
-#define arch_rol8(w, s)     ___constant_rol8(w, s)
-
-#define arch_ctz64(x)       ___constant_ctz64(x)
-#define arch_ctz32(x)       ___constant_ctz32(x)
-
-#define arch_cto64(x)       ___constant_cto64(x)
-#define arch_cto32(x)       ___constant_cto32(x)
 
 #if defined(__thumb2__)
 static inline int arch_popcnt32(uint32_t x)
@@ -981,6 +929,80 @@ static inline uint64_t arch_swap64(uint64_t x)
 }
 #endif
 
+#ifndef arch_ror64
+#define arch_ror64(w, s)    ___constant_ror64(w, s)
+#endif
+#ifndef arch_ror32
+#define arch_ror32(w, s)    ___constant_ror32(w, s)
+#endif
+#ifndef arch_ror16
+#define arch_ror16(w, s)    ___constant_ror16(w, s)
+#endif
+#ifndef arch_ror8
+#define arch_ror8(w, s)     ___constant_ror8(w, s)
+#endif
+
+#ifndef arch_rol64
+#define arch_rol64(w, s)    ___constant_rol64(w, s)
+#endif
+#ifndef arch_rol32
+#define arch_rol32(w, s)    ___constant_rol32(w, s)
+#endif
+#ifndef arch_rol16
+#define arch_rol16(w, s)    ___constant_rol16(w, s)
+#endif
+#ifndef arch_rol8
+#define arch_rol8(w, s)     ___constant_rol8(w, s)
+#endif
+
+#ifndef arch_ctz64
+#define arch_ctz64(x)       __builtin_ctzl(x)
+#endif
+#ifndef arch_ctz32
+#define arch_ctz32(x)       __builtin_ctz(x)
+#endif
+
+#ifndef arch_cto64
+#define arch_cto64(x)       ___constant_cto64(x)
+#endif
+#ifndef arch_cto32
+#define arch_cto32(x)       ___constant_cto32(x)
+#endif
+
+#ifndef arch_popcnt64
+#define arch_popcnt64(x)    __builtin_popcountl(x)
+#endif
+#ifndef arch_popcnt32
+#define arch_popcnt32(x)    __builtin_popcount(x)
+#endif
+#ifndef arch_popcnt16
+#define arch_popcnt16(x)    __builtin_popcount(x)
+#endif
+
+#ifndef arch_clz64
+#define arch_clz64(x)       __builtin_clzl(x)
+#endif
+#ifndef arch_clz32
+#define arch_clz32(x)       __builtin_clz(x)
+#endif
+
+#ifndef arch_clo64
+#define arch_clo64(x)       ___constant_clo64(x)
+#endif
+#ifndef arch_clo32
+#define arch_clo32(x)       ___constant_clo32(x)
+#endif
+
+#ifndef arch_swap64
+#define arch_swap64(x)      __builtin_bswap64(x)
+#endif
+#ifndef arch_swap32
+#define arch_swap32(x)      __builtin_bswap32(x)
+#endif
+#ifndef arch_swap16
+#define arch_swap16(x)      ___constant_swap16(x)
+#endif
+
 #define __bit_ro(bs, w, s)                                                  \
     ((__builtin_constant_p(w) && __builtin_constant_p(s)) ?                 \
      ___constant_ro##bs(w, s) : arch_ro##bs(w, s))
@@ -994,6 +1016,10 @@ static inline uint64_t arch_swap64(uint64_t x)
 #define ror32(word, shift)  __bit_ro(r32, word, shift)
 #define ror16(word, shift)  __bit_ro(r16, word, shift)
 #define ror8(word, shift)   __bit_ro(r8, word, shift)
+
+/* Count Ones in 16-Bits */
+#define popcnt16(x) (__builtin_constant_p(x) ?                              \
+    ___constant_popcnt16(x) : arch_popcnt16(x))
 
 /* Count Ones in 32-Bits */
 #define popcnt32(x) (__builtin_constant_p(x) ?                              \
