@@ -1,4 +1,4 @@
-TARGET := 
+TARGET := $(notdir $(CURDIR))
 
 _all: $(TARGET)
 
