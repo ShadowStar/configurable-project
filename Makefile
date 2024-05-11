@@ -47,14 +47,14 @@ CTAGS := exuberant-ctags
 IGNORE_LIST += include/config
 
 define TARGETS
-$(1)/%: FORCE
+$(1)/%: $(TOPDIR)/include/version.h FORCE
 	$$(SILENT)PATH=$$(PATH) $$(MAKE) -f sub-dir.mk -C $$(firstword $$(subst /, ,$$@)) $$(subst $$(firstword $$(subst /, ,$$@))/,,$$@)
 endef
 
 $(foreach t,$(BUILD_DIR),$(eval $(call TARGETS,$(t))))
 $(foreach t,$(BUILD_DIR),$(eval BUILD_TARGETS-$(CFG_$(t)) += $(t)))
 
-$(BUILD_TARGETS-y) $(BUILD_TARGETS-m): FORCE
+$(BUILD_TARGETS-y) $(BUILD_TARGETS-m): $(TOPDIR)/include/version.h FORCE
 	$(SILENT)PATH=$(PATH) $(MAKE) -f sub-dir.mk -C $@
 
 all: $(BUILD_TARGETS-y) $(BUILD_TARGETS-m)
