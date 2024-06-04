@@ -1,6 +1,6 @@
 _all: all
 
-include $(TOPDIR)/include/config/auto.conf
+-include $(TOPDIR)/include/config/auto.conf
 include $(TOPDIR)/scripts/toolchain.mk
 
 PHONY := _all all FORCE

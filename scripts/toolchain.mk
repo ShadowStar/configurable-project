@@ -1,4 +1,4 @@
-include $(TOPDIR)/include/config/auto.conf
+-include $(TOPDIR)/include/config/auto.conf
 
 TOOLCHAIN_UTILS := ar as gcc cpp ld nm objcopy objdump ranlib strip
 LLVM_UTILS += llc llvm-ar llvm-as clang clang-cpp llvm-nm llvm-objcopy llvm-objdump llvm-ranlib llvm-strip
