@@ -59,6 +59,12 @@ $(BUILD_TARGETS-y) $(BUILD_TARGETS-m): $(TOPDIR)/include/version.h FORCE
 
 all: $(BUILD_TARGETS-y) $(BUILD_TARGETS-m)
 
+install: $(TARGET_STAG)
+	@install -d $(DEST_DIR)
+	@cp -ar $(TARGET_STAG)/bin $(DEST_DIR)/
+	@cp -ar $(TARGET_STAG)/lib* $(DEST_DIR)/
+	@cp -ar $(TARGET_STAG)/etc $(DEST_DIR)/
+
 PHONY += FORCE
 FORCE:
 
