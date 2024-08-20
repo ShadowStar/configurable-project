@@ -1,13 +1,27 @@
-TARGET := $(notdir $(CURDIR))
+CDIR := $(notdir $(CURDIR))
+ifeq ($(patsubst lib%,lib,$(CDIR)),lib)
+TARGET := $(CDIR).so $(CDIR).a
+else
+TARGET := $(CDIR)
+TARGET_BIN := $(TARGET)
+endif
 
 _all: $(TARGET)
 
 SRC := $(wildcard *.c)
 OBJS := $(SRC:.c=.o)
-CFLAGS += 
+CFLAGS += -DPIC -fPIC -pipe
 
-$(TARGET): $(OBJS)
+ifneq (x$(TARGET_BIN),x)
+$(TARGET_BIN): $(OBJS)
 	$(SILENT)$(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
+endif
+
+%.so: $(OBJS)
+	$(SILENT)$(CC) $(CFLAGS) -shared -o $@ $(filter %.o,$^)
+
+%.a: $(OBJS)
+	$(SILENT)$(AR) rcs $@ $^
 
 clean:
 	-@rm -f $(TARGET) *.d *.o *.a *.so
@@ -16,12 +30,14 @@ distclean: clean
 	-@rm -f tags cscope.*
 
 install: $(TARGET)
-	@install -d $(TARGET_STAG)/bin
 	@install -d $(TARGET_STAG)/lib
-	@install -d $(TARGET_STAG)/include
-	@install -m755 $(TARGET) $(TARGET_STAG)/bin/
+	@install -d $(TARGET_STAG)/include/$(CDIR)
 	@install -m755 *.so *.a $(TARGET_STAG)/lib/
-	@install -m644 *.h $(TARGET_STAG)/include/
+	@install -m644 *.h $(TARGET_STAG)/include/$(CDIR)
+ifneq (x$(TARGET_BIN),x)
+	@install -d $(TARGET_STAG)/bin
+	@install -m755 $(TARGET_BIN) $(TARGET_STAG)/bin
+endif
 
 -include $(wildcard *.d)
 
