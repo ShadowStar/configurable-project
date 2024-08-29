@@ -14,7 +14,7 @@
 #        AUTHOR: ShadowStar, <orphen.leiliu@gmail.com>
 #  ORGANIZATION:Gmail
 #       CREATED: 01/05/2024 15:51:03
-#   LAST CHANGE:05/09/2024 11:51:15
+#   LAST CHANGE:08/28/2024 21:27:37
 #      REVISION:  ---
 #===============================================================================
 
@@ -45,6 +45,7 @@ BASE=$(basename $1)
 mkdir -p ${DIR}/${BASE}
 cp scripts/Makefile.template ${DIR}/${BASE}/Makefile
 touch ${DIR}/${BASE}/${BASE}.c
+echo "${BASE}" > ${DIR}/${BASE}/.gitignore
 
 if [ -f "${DIR}"/sub-dir.in ]; then
 	sed -e "s/^if ${DIR}\$/if ${DIR}\n\tconfig ${DIR}_${BASE}\n\tbool \"Enable ${BASE}\"\n/" ${DIR}/sub-dir.in > .tmp-${DIR}_${BASE} && \
