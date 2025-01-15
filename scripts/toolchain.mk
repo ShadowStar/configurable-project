@@ -35,6 +35,7 @@ ifeq ($(CFG_TARGET_ARCH),"")
 endif
 
 CFG_TARGET=$(shell $(GCC) -dumpmachine)
+CFG_TARGET_OS=$(if $(findstring linux,$(CFG_TARGET)),linux,$(if $(findstring darwin,$(CFG_TARGET)),darwin,unknown))
 
 export CC := $(GCC)
 export TARGET_STAG = "$(STAGING_DIR)/$(CFG_TARGET)/"
