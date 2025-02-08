@@ -14,7 +14,7 @@ FORCE:
 define build_sub_targets
 all: $(SUB_TARGET-y) $(SUB_TARGET-m) FORCE
 
-CLEAN_TARGETS := $(addsuffix /clean,$(SUB_DIR))
+CLEAN_TARGETS := $(addsuffix /clean,$(SUB_TARGETS))
 INSTALL_TARGETS := $(addsuffix /install,$(SUB_TARGET-y) $(SUB_TARGET-m))
 
 clean: $$(CLEAN_TARGETS)
