@@ -1133,6 +1133,37 @@ static inline uint64_t arch_swap64(uint64_t x)
 #define load_n64(x)         load_be64(x)
 #endif
 
+#define ATOM_LOAD(x)            __atomic_load_n(x, __ATOMIC_ACQUIRE)
+#define ATOM_LOAD_TO(x, p)      __atomic_load(x, p, __ATOMIC_ACQUIRE)
+
+#define ATOM_CLR(x)             __atomic_clear(x, __ATOMIC_RELEASE)
+#define ATOM_STORE(x, v)        __atomic_store_n(x, v, __ATOMIC_RELEASE)
+#define ATOM_STORE_FROM(x, p)   __atomic_store(x, p, __ATOMIC_RELEASE)
+
+#define ATOM_ADD(x, v)          __atomic_add_fetch(x, v, __ATOMIC_RELEASE)
+#define ATOM_ADD_LOAD(x, v)     __atomic_add_fetch(x, v, __ATOMIC_ACQ_REL)
+#define ATOM_LOAD_ADD(x, v)     __atomic_fetch_add(x, v, __ATOMIC_ACQ_REL)
+
+#define ATOM_SUB(x, v)          __atomic_sub_fetch(x, v, __ATOMIC_RELEASE)
+#define ATOM_SUB_LOAD(x, v)     __atomic_sub_fetch(x, v, __ATOMIC_ACQ_REL)
+#define ATOM_LOAD_SUB(x, v)     __atomic_fetch_sub(x, v, __ATOMIC_ACQ_REL)
+
+#define ATOM_AND(x, v)          __atomic_and_fetch(x, v, __ATOMIC_RELEASE)
+#define ATOM_AND_LOAD(x, v)     __atomic_and_fetch(x, v, __ATOMIC_ACQ_REL)
+#define ATOM_LOAD_AND(x, v)     __atomic_fetch_and(x, v, __ATOMIC_ACQ_REL)
+
+#define ATOM_OR(x, v)           __atomic_or_fetch(x, v, __ATOMIC_RELEASE)
+#define ATOM_OR_LOAD(x, v)      __atomic_or_fetch(x, v, __ATOMIC_ACQ_REL)
+#define ATOM_LOAD_OR(x, v)      __atomic_fetch_or(x, v, __ATOMIC_ACQ_REL)
+
+#define ATOM_XOR(x, v)          __atomic_xor_fetch(x, v, __ATOMIC_RELEASE)
+#define ATOM_XOR_LOAD(x, v)     __atomic_xor_fetch(x, v, __ATOMIC_ACQ_REL)
+#define ATOM_LOAD_XOR(x, v)     __atomic_fetch_xor(x, v, __ATOMIC_ACQ_REL)
+
+#define ATOM_XCHG(x, v)         __atomic_exchange_n(x, v, __ATOMIC_ACQ_REL)
+#define ATOM_CMP_XCHG(x, e, v)  \
+__atomic_compare_exchange_n(x, e, v, 0, __ATOMIC_ACQ_REL, __ATOMIC_ACQUIRE)
+
 static inline void swap_dat(uint8_t *buf, int len)
 {
     while (len >= 16) {
