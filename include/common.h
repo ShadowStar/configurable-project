@@ -1133,6 +1133,7 @@ static inline uint64_t arch_swap64(uint64_t x)
 #define load_n64(x)         load_be64(x)
 #endif
 
+#define ATOM_LOAD_RELAXED(x)    __atomic_load_n(x, __ATOMIC_RELAXED)
 #define ATOM_LOAD(x)            __atomic_load_n(x, __ATOMIC_ACQUIRE)
 #define ATOM_LOAD_TO(x, p)      __atomic_load(x, p, __ATOMIC_ACQUIRE)
 
@@ -1140,10 +1141,12 @@ static inline uint64_t arch_swap64(uint64_t x)
 #define ATOM_STORE(x, v)        __atomic_store_n(x, v, __ATOMIC_RELEASE)
 #define ATOM_STORE_FROM(x, p)   __atomic_store(x, p, __ATOMIC_RELEASE)
 
+#define ATOM_ADD_RELAXED(x, v)  __atomic_add_fetch(x, v, __ATOMIC_RELAXED)
 #define ATOM_ADD(x, v)          __atomic_add_fetch(x, v, __ATOMIC_RELEASE)
 #define ATOM_ADD_LOAD(x, v)     __atomic_add_fetch(x, v, __ATOMIC_ACQ_REL)
 #define ATOM_LOAD_ADD(x, v)     __atomic_fetch_add(x, v, __ATOMIC_ACQ_REL)
 
+#define ATOM_SUB_RELAXED(x, v)  __atomic_sub_fetch(x, v, __ATOMIC_RELAXED)
 #define ATOM_SUB(x, v)          __atomic_sub_fetch(x, v, __ATOMIC_RELEASE)
 #define ATOM_SUB_LOAD(x, v)     __atomic_sub_fetch(x, v, __ATOMIC_ACQ_REL)
 #define ATOM_LOAD_SUB(x, v)     __atomic_fetch_sub(x, v, __ATOMIC_ACQ_REL)
