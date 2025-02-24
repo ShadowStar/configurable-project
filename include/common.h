@@ -23,6 +23,12 @@ typedef __UINT64_TYPE__ uint64_t;
 #endif
 #endif
 
+#ifndef CACHE_LINE_SZIE
+#define CACHE_LINE_SZIE     64
+#endif
+
+#define CACHE_LINE_ALIGNED  __attribute__((aligned(CACHE_LINE_SZIE)))
+
 #ifndef __BIG_ENDIAN
 #define __BIG_ENDIAN        4321
 #endif
@@ -1138,6 +1144,7 @@ static inline uint64_t arch_swap64(uint64_t x)
 #define ATOM_LOAD_TO(x, p)      __atomic_load(x, p, __ATOMIC_ACQUIRE)
 
 #define ATOM_CLR(x)             __atomic_clear(x, __ATOMIC_RELEASE)
+#define ATOM_STORE_RELAXED(x, v)    __atomic_store_n(x, v, __ATOMIC_RELAXED)
 #define ATOM_STORE(x, v)        __atomic_store_n(x, v, __ATOMIC_RELEASE)
 #define ATOM_STORE_FROM(x, p)   __atomic_store(x, p, __ATOMIC_RELEASE)
 
