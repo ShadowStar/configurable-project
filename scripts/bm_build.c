@@ -138,7 +138,7 @@ static void build_file_pre(struct ts_bm *bm)
 
 static void build_file_post(struct ts_bm *bm)
 {
-    printf("static inline uint8_t *bm_find_");
+    printf("static inline uint8_t *bm_find%s", ignorecase ? "_icase_" : "_");
     PATTERN_STR;
     printf("(const uint8_t *text, uint32_t *len)\n");
     printf("{\n");
