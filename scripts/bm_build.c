@@ -140,10 +140,10 @@ static void build_file_post(struct ts_bm *bm)
 {
     printf("static inline uint8_t *bm_find%s", ignorecase ? "_icase_" : "_");
     PATTERN_STR;
-    printf("(const uint8_t *text, uint32_t *len)\n");
+    printf("(const void *in, uint32_t *len)\n");
     printf("{\n");
-    printf("\tint i, shift = %d - 1, bs, gs;\n", bm->patlen);
-    printf("\tconst uint8_t pattern[] = {");
+    printf("\tuint32_t i, shift = %d, bs, gs;\n", bm->patlen - 1);
+    printf("\tconst uint8_t *text = in, pattern[] = {");
     int i;
     for (i = 0; i < bm->patlen; i++)
         printf(" 0x%X,", bm->pattern[i]);
@@ -157,7 +157,7 @@ static void build_file_post(struct ts_bm *bm)
         printf("\t\t\tif (text[shift - i] != pattern[%d - 1 - i])\n",
                bm->patlen);
     printf("\t\t\t\tgoto next;\n");
-    printf("\t\t*len = strlen(pattern);\n");
+    printf("\t\t*len = sizeof(pattern);\n");
     printf("\t\treturn (uint8_t *)text + shift - %d + 1;\n", bm->patlen);
     printf("next:\n");
     printf("\t\tbs = shift - i + get_bs_");
