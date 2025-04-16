@@ -7,15 +7,22 @@ TARGET := $(CDIR)
 TARGET_BIN := $(TARGET)
 endif
 
+TARGET_FULL := $(subst /,_,$(subst $(TOPDIR)/,,$(CURDIR)))
+TARGET_STATIC_VAR := CFG_$(TARGET_FULL)_static
+
 _all: $(TARGET)
 
 SRC := $(wildcard *.c)
 OBJS := $(SRC:.c=.o)
 CFLAGS += -DPIC -fPIC -pipe -lpthread
 
+ifneq (x$($(TARGET_STATIC_VAR)),x)
+CFLAGS += -static
+endif
+
 ifneq (x$(TARGET_BIN),x)
 $(TARGET_BIN): $(OBJS)
-	$(SILENT)$(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
+	$(SILENT)$(CC) -o $@ $(filter %.o,$^) $(CFLAGS)
 endif
 
 %.so: $(OBJS)
