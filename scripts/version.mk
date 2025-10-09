@@ -8,10 +8,10 @@ export PRJ_VERSION PRJ_VERSION_FULL
 no-dot-cfg-targets += $(PRJ_VERSION_H) version
 
 $(PRJ_VERSION_H): FORCE
-	@if [ ! -f $@ ] || [ $(shell cat $@ | grep "\<PRJ_VERSION\>" | cut -d' ' -f3) != "$(PRJ_VERSION)" ]; then \
+	@if [ ! -f $@ ] || [ "$$(cat $@ | grep "\<PRJ_VERSION\>" | cut -d' ' -f3-)" != "\"$(PRJ_VERSION)\"" ]; then \
 		echo "#define PRJ_VERSION \"$(PRJ_VERSION)\"" > $@; \
 		echo "#define PRJ_VERSION_FULL \"$(PRJ_VERSION_FULL)\"" >> $@; \
-		echo "#define PRJ_GIT_SHA1 0x$(PRJ_GIT_SHA1)" >> $@; fi
+		echo "#define PRJ_GIT_SHA1 0x$(if $(PRJ_GIT_SHA1),$(PRJ_GIT_SHA1),0)" >> $@; fi
 
 version: $(PRJ_VERSION_H)
 	@cat $^
