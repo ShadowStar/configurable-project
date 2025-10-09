@@ -1174,6 +1174,19 @@ static inline uint64_t arch_swap64(uint64_t x)
 #define ATOM_CMP_XCHG(x, e, v)  \
 __atomic_compare_exchange_n(x, e, v, 0, __ATOMIC_ACQ_REL, __ATOMIC_ACQUIRE)
 
+#define GOLDEN_RATIO_32         0x61C88647
+#define GOLDEN_RATIO_64         0x61C8864680B583EBULL
+
+static inline uint32_t hash32(uint32_t val, unsigned int bits)
+{
+       return val * GOLDEN_RATIO_32 >> (32 - bits);
+}
+
+static inline uint32_t hash64(uint64_t val, unsigned int bits)
+{
+       return val * GOLDEN_RATIO_64 >> (64 - bits);
+}
+
 static inline void swap_dat(uint8_t *buf, int len)
 {
     while (len >= 16) {
