@@ -27,6 +27,10 @@ typedef __UINT64_TYPE__ uint64_t;
 #define CACHE_LINE_SIZE     64
 #endif
 
+#if (CACHE_LINE_SIZE < 64)
+#define CACHE_LINE_SIZE     64
+#endif
+
 #define CACHE_LINE_ALIGNED  __attribute__((aligned(CACHE_LINE_SIZE)))
 
 #ifndef __BIG_ENDIAN
