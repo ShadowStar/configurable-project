@@ -23,11 +23,11 @@ typedef __UINT64_TYPE__ uint64_t;
 #endif
 #endif
 
-#ifndef CACHE_LINE_SZIE
-#define CACHE_LINE_SZIE     64
+#ifndef CACHE_LINE_SIZE
+#define CACHE_LINE_SIZE     64
 #endif
 
-#define CACHE_LINE_ALIGNED  __attribute__((aligned(CACHE_LINE_SZIE)))
+#define CACHE_LINE_ALIGNED  __attribute__((aligned(CACHE_LINE_SIZE)))
 
 #ifndef __BIG_ENDIAN
 #define __BIG_ENDIAN        4321
