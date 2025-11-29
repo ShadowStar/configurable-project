@@ -1175,10 +1175,22 @@ static inline uint64_t arch_swap64(uint64_t x)
 #define ATOM_LOAD_XOR(x, v)     __atomic_fetch_xor(x, v, __ATOMIC_ACQ_REL)
 
 #define ATOM_XCHG(x, v)         __atomic_exchange_n(x, v, __ATOMIC_ACQ_REL)
-#define ATOM_CMP_XCHG(x, ev, nv)  ({                                        \
-    typeof(*(x)) __ep = ev;                                                 \
-    __atomic_compare_exchange_n(x, &__ep, nv, 0, __ATOMIC_ACQ_REL,          \
-                                __ATOMIC_ACQUIRE); __ep; })
+#define ATOM_EQ_XCHG(x, e, n)                                               \
+({ typeof(*(x)) _e = e; __atomic_compare_exchange_n(x, &_e, n, 0,           \
+                                                    __ATOMIC_ACQ_REL,       \
+                                                    __ATOMIC_ACQUIRE); _e; })
+#define ATOM_NE_XCHG(x, e, v)                                               \
+({ typeof(*(x)) _e = ATOM_LOAD(x); do { if (_e == e) break;                 \
+ } while (!__atomic_compare_exchange_n(x, &_e, v, 0, __ATOMIC_ACQ_REL,      \
+                                       __ATOMIC_ACQUIRE)); _e; })
+#define ATOM_GE_XCHG(x, e, v)                                               \
+({ typeof(*(x)) _e = ATOM_LOAD(x); do { if (_e < e) break;                  \
+ } while (!__atomic_compare_exchange_n(x, &_e, v, 0, __ATOMIC_ACQ_REL,      \
+                                       __ATOMIC_ACQUIRE)); _e; })
+#define ATOM_LE_XCHG(x, e, v)                                               \
+({ typeof(*(x)) _e = ATOM_LOAD(x); do { if (_e > e) break;                  \
+ } while (!__atomic_compare_exchange_n(x, &_e, v, 0, __ATOMIC_ACQ_REL,      \
+                                       __ATOMIC_ACQUIRE)); _e; })
 
 #define GOLDEN_RATIO_32         0x61C88647
 #define GOLDEN_RATIO_64         0x61C8864680B583EBULL
