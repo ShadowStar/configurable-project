@@ -1181,15 +1181,15 @@ static inline uint64_t arch_swap64(uint64_t x)
                                                     __ATOMIC_ACQUIRE); _e; })
 #define ATOM_NE_XCHG(x, e, v)                                               \
 ({ typeof(*(x)) _e = ATOM_LOAD(x); do { if (_e == e) break;                 \
- } while (!__atomic_compare_exchange_n(x, &_e, v, 0, __ATOMIC_ACQ_REL,      \
+ } while (!__atomic_compare_exchange_n(x, &_e, v, 1, __ATOMIC_ACQ_REL,      \
                                        __ATOMIC_ACQUIRE)); _e; })
 #define ATOM_GE_XCHG(x, e, v)                                               \
 ({ typeof(*(x)) _e = ATOM_LOAD(x); do { if (_e < e) break;                  \
- } while (!__atomic_compare_exchange_n(x, &_e, v, 0, __ATOMIC_ACQ_REL,      \
+ } while (!__atomic_compare_exchange_n(x, &_e, v, 1, __ATOMIC_ACQ_REL,      \
                                        __ATOMIC_ACQUIRE)); _e; })
 #define ATOM_LE_XCHG(x, e, v)                                               \
 ({ typeof(*(x)) _e = ATOM_LOAD(x); do { if (_e > e) break;                  \
- } while (!__atomic_compare_exchange_n(x, &_e, v, 0, __ATOMIC_ACQ_REL,      \
+ } while (!__atomic_compare_exchange_n(x, &_e, v, 1, __ATOMIC_ACQ_REL,      \
                                        __ATOMIC_ACQUIRE)); _e; })
 
 #define GOLDEN_RATIO_32         0x61C88647
